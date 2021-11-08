@@ -6,18 +6,21 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.codeandweb.physicseditor.PhysicsShapeCache;
 
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture space;
 	private OrthographicCamera camera;
 	int screenWidth, screenHeight;
-	
+	PhysicsShapeCache shapes;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		space = new Texture("sprites/background/blue.png");
 		camera = new OrthographicCamera();
+		shapes = new PhysicsShapeCache("physics.xml");
 		screenWidth = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();
 		camera.setToOrtho(false, screenWidth, screenHeight);

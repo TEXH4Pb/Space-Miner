@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created with https://www.codeandweb.com/physicseditor -->
+<bodydef>
+
+	<body name="playerShip">
+		<is_dynamic/>
+		<linear_damping>0</linear_damping>
+		<angular_damping>0</angular_damping>
+		<allow_sleep/>
+		<fixture>
+			<density>2</density>
+			<friction>0</friction>
+			<restitution>0</restitution>
+			<filter_category_bits>1</filter_category_bits>
+			<filter_mask_bits>65535</filter_mask_bits>
+			<filter_group_index>0</filter_group_index>
+			<polygon>0.0000, 9.5000, 7.0000, 8.5000, 26.0000, 10.5000, 37.5000, 60.0000, -0.5000, 16.0000</polygon>
+			<polygon>95.5000, 9.0000, 95.5000, 18.0000, 46.0000, 75.0000, 37.5000, 60.0000, 71.0000, 10.5000</polygon>
+			<polygon>52.0000, 75.0000, 46.0000, 75.0000, 58.5000, 61.0000</polygon>
+			<polygon>37.5000, 60.0000, 26.0000, 10.5000, 36.0000, 0.5000, 61.0000, 0.5000, 71.0000, 10.5000</polygon>
+		</fixture>
+	</body>
+
+	<body name="meteorBig4">
+		<is_dynamic/>
+		<linear_damping>0</linear_damping>
+		<angular_damping>0</angular_damping>
+		<allow_sleep/>
+		<fixture>
+			<density>2</density>
+			<friction>0</friction>
+			<restitution>0</restitution>
+			<filter_category_bits>1</filter_category_bits>
+			<filter_mask_bits>65535</filter_mask_bits>
+			<filter_group_index>0</filter_group_index>
+			<polygon>79.0000, 6.0000, 98.0000, 60.0000, 66.0000, 95.0000, 14.0000, 82.0000, 0.0000, 37.0000, 30.0000, 1.0000</polygon>
+		</fixture>
+	</body>
+
+	<body name="meteorBig1">
+		<is_dynamic/>
+		<linear_damping>0</linear_damping>
+		<angular_damping>0</angular_damping>
+		<allow_sleep/>
+		<fixture>
+			<density>2</density>
+			<friction>0</friction>
+			<restitution>0</restitution>
+			<filter_category_bits>1</filter_category_bits>
+			<filter_mask_bits>65535</filter_mask_bits>
+			<filter_group_index>0</filter_group_index>
+			<polygon>17.0000, 83.0000, 0.0000, 32.0000, 61.0000, 13.0000, 85.0000, 10.0000, 100.0000, 43.0000, 74.0000, 83.0000</polygon>
+			<polygon>29.0000, 1.0000, 61.0000, 13.0000, 0.0000, 32.0000</polygon>
+		</fixture>
+	</body>
+
+	<body name="meteorBig2">
+		<is_dynamic/>
+		<linear_damping>0</linear_damping>
+		<angular_damping>0</angular_damping>
+		<allow_sleep/>
+		<fixture>
+			<density>2</density>
+			<friction>0</friction>
+			<restitution>0</restitution>
+			<filter_category_bits>1</filter_category_bits>
+			<filter_mask_bits>65535</filter_mask_bits>
+			<filter_group_index>0</filter_group_index>
+			<polygon>120.0000, 78.0000, 67.0000, 97.0000, 20.0000, 90.0000, 0.0000, 53.0000, 6.0000, 22.5000, 51.0000, 16.0000, 106.0000, 31.0000</polygon>
+			<polygon>34.0000, 1.0000, 51.0000, 16.0000, 6.0000, 22.5000</polygon>
+		</fixture>
+	</body>
+
+	<body name="meteorBig3">
+		<is_dynamic/>
+		<linear_damping>0</linear_damping>
+		<angular_damping>0</angular_damping>
+		<allow_sleep/>
+		<fixture>
+			<density>2</density>
+			<friction>0</friction>
+			<restitution>0</restitution>
+			<filter_category_bits>1</filter_category_bits>
+			<filter_mask_bits>65535</filter_mask_bits>
+			<filter_group_index>0</filter_group_index>
+			<polygon>66.0000, 0.0000, 89.0000, 40.0000, 73.0000, 70.0000, 34.0000, 81.0000, 2.0000, 27.0000, 16.0000, 8.0000</polygon>
+			<polygon>1.0000, 60.0000, 2.0000, 27.0000, 34.0000, 81.0000</polygon>
+		</fixture>
+	</body>
+
+	<body name="meteorTiny2">
+		<is_dynamic/>
+		<linear_damping>0</linear_damping>
+		<angular_damping>0</angular_damping>
+		<allow_sleep/>
+		<fixture>
+			<density>2</density>
+			<friction>0</friction>
+			<restitution>0</restitution>
+			<filter_category_bits>1</filter_category_bits>
+			<filter_mask_bits>65535</filter_mask_bits>
+			<filter_group_index>0</filter_group_index>
+			<circle x="7.900" y="7.700" r="6.674"/>
+		</fixture>
+	</body>
+
+	<body name="meteorMed1">
+		<is_dynamic/>
+		<linear_damping>0</linear_damping>
+		<angular_damping>0</angular_damping>
+		<allow_sleep/>
+		<fixture>
+			<density>2</density>
+			<friction>0</friction>
+			<restitution>0</restitution>
+			<filter_category_bits>1</filter_category_bits>
+			<filter_mask_bits>65535</filter_mask_bits>
+			<filter_group_index>0</filter_group_index>
+			<polygon>39.0000, 40.0000, 13.0000, 42.0000, 0.0000, 26.0000, 7.0000, 6.0000, 22.0000, 1.0000, 43.0000, 14.0000</polygon>
+		</fixture>
+	</body>
+
+	<body name="meteorMed3">
+		<is_dynamic/>
+		<linear_damping>0</linear_damping>
+		<angular_damping>0</angular_damping>
+		<allow_sleep/>
+		<fixture>
+			<density>2</density>
+			<friction>0</friction>
+			<restitution>0</restitution>
+			<filter_category_bits>1</filter_category_bits>
+			<filter_mask_bits>65535</filter_mask_bits>
+			<filter_group_index>0</filter_group_index>
+			<polygon>45.0000, 22.0000, 31.0000, 39.0000, 7.0000, 35.0000, 0.0000, 15.0000, 14.0000, 2.0000, 29.0000, 0.0000</polygon>
+		</fixture>
+	</body>
+
+	<body name="meteorSmall1">
+		<is_dynamic/>
+		<linear_damping>0</linear_damping>
+		<angular_damping>0</angular_damping>
+		<allow_sleep/>
+		<fixture>
+			<density>2</density>
+			<friction>0</friction>
+			<restitution>0</restitution>
+			<filter_category_bits>1</filter_category_bits>
+			<filter_mask_bits>65535</filter_mask_bits>
+			<filter_group_index>0</filter_group_index>
+			<polygon>25.0000, 26.0000, 7.0000, 26.0000, 0.0000, 16.0000, 5.0000, 4.0000, 14.0000, 1.0000, 27.0000, 9.0000</polygon>
+		</fixture>
+	</body>
+
+	<body name="meteorSmall2">
+		<is_dynamic/>
+		<linear_damping>0</linear_damping>
+		<angular_damping>0</angular_damping>
+		<allow_sleep/>
+		<fixture>
+			<density>2</density>
+			<friction>0</friction>
+			<restitution>0</restitution>
+			<filter_category_bits>1</filter_category_bits>
+			<filter_mask_bits>65535</filter_mask_bits>
+			<filter_group_index>0</filter_group_index>
+			<polygon>0.0000, 10.0000, 10.0000, 1.0000, 20.0000, 1.0000, 28.0000, 15.0000, 20.0000, 25.0000, 5.0000, 23.0000</polygon>
+		</fixture>
+	</body>
+
+	<body name="meteorTiny1">
+		<is_dynamic/>
+		<linear_damping>0</linear_damping>
+		<angular_damping>0</angular_damping>
+		<allow_sleep/>
+		<fixture>
+			<density>2</density>
+			<friction>0</friction>
+			<restitution>0</restitution>
+			<filter_category_bits>1</filter_category_bits>
+			<filter_mask_bits>65535</filter_mask_bits>
+			<filter_group_index>0</filter_group_index>
+			<circle x="9.400" y="9.100" r="7.600"/>
+		</fixture>
+	</body>
+
+	<metadata>
+		<format>1</format>
+		<ptm_ratio>32</ptm_ratio>
+	</metadata>
+
+</bodydef>
+
