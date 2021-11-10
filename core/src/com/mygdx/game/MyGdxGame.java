@@ -93,9 +93,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 		//rendering all entities
 		if(player.getLifes()>0){
-		for (Entity e: entities) {
-			e.draw(batch);
-		}
+			for (Entity e: entities) {
+				e.draw(batch);
+			}
+			player.draw(batch);
 		}
 		batch.end();
 
@@ -136,6 +137,8 @@ public class MyGdxGame extends ApplicationAdapter {
 			return;
 
 		world.step(STEP_TIME, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+		player.update();
+		checkBorders(player);
 
 		int asteroidCount = 0;
 		Vector2 newPos;
@@ -151,31 +154,37 @@ public class MyGdxGame extends ApplicationAdapter {
 				continue;
 			}
 			//border handling
-			if (e.getPosition().x > worldWidth) {
-				newPos = e.getPosition();
-				newPos.x = 0;
-				e.body.setTransform(newPos, e.body.getAngle());
-			} else if (e.getPosition().x < 0) {
-				newPos = e.getPosition();
-				newPos.x = worldWidth;
-				e.body.setTransform(newPos, e.body.getAngle());
-			}
-
-			if (e.getPosition().y > worldHeight) {
-				newPos = e.getPosition();
-				newPos.y = 0;
-				e.body.setTransform(newPos, e.body.getAngle());
-			} else if (e.getPosition().y < 0) {
-				newPos = e.getPosition();
-				newPos.y = worldHeight;
-				e.body.setTransform(newPos, e.body.getAngle());
-			}
+			checkBorders(e);
 		}
 		for(; asteroidCount>0; asteroidCount--)
 			entities.add(spawnNewAsteroid());
-
-		controlsHandling();
+		if(!player.isStunned())
+			controlsHandling();
 	}
+
+	private void checkBorders(Entity e) {
+		Vector2 newPos;
+		if (e.getPosition().x > worldWidth) {
+			newPos = e.getPosition();
+			newPos.x = 0;
+			e.body.setTransform(newPos, e.body.getAngle());
+		} else if (e.getPosition().x < 0) {
+			newPos = e.getPosition();
+			newPos.x = worldWidth;
+			e.body.setTransform(newPos, e.body.getAngle());
+		}
+
+		if (e.getPosition().y > worldHeight) {
+			newPos = e.getPosition();
+			newPos.y = 0;
+			e.body.setTransform(newPos, e.body.getAngle());
+		} else if (e.getPosition().y < 0) {
+			newPos = e.getPosition();
+			newPos.y = worldHeight;
+			e.body.setTransform(newPos, e.body.getAngle());
+		}
+	}
+
 	private Vector3 getMouseVector(){
 		Vector3 mouse = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
 		camera.unproject(mouse);
@@ -223,9 +232,9 @@ public class MyGdxGame extends ApplicationAdapter {
 				world.destroyBody(e.body);
 			}
 			entities.clear();
+			world.destroyBody(player.body);
 		}
 		player = new Ship(world, worldWidth / 2, worldHeight / 2);
-		entities.add(player);
 		for (int i = 0; i < ASTEROID_COUNT; ++i) {
 			entities.add(spawnNewAsteroid());
 		}

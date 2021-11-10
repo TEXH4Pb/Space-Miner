@@ -185,7 +185,25 @@
 			<circle x="9.400" y="9.100" r="7.600"/>
 		</fixture>
 	</body>
-
+	
+	<body name="laser">
+		<is_dynamic/>
+		<linear_damping>0</linear_damping>
+		<angular_damping>0</angular_damping>
+		<fixed_rotation/>
+		<is_bullet/>
+		<allow_sleep/>
+		<fixture>
+			<density>3</density>
+			<friction>0</friction>
+			<restitution>0</restitution>
+			<filter_category_bits>1</filter_category_bits>
+			<filter_mask_bits>65535</filter_mask_bits>
+			<filter_group_index>0</filter_group_index>
+			<circle x="4.500" y="32.500" r="4.500"/>
+		</fixture>
+	</body>
+	
 	<metadata>
 		<format>1</format>
 		<ptm_ratio>32</ptm_ratio>

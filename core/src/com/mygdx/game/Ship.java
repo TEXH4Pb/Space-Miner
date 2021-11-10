@@ -14,6 +14,7 @@ public class Ship extends Entity{
     private int stunTimer;//if the ship is hit by laser, it becomes stunned for a while
     private static final float FORWARD_ACCELERATION = 0.7f;
     private static final float STRAFE_ACCELERATION = 0.3f;
+    private static final int SHOT_COOLDOWN = 20;
 
     Ship(World world, float x, float y)
     {
@@ -62,8 +63,10 @@ public class Ship extends Entity{
         }
         if(stunTimer > 0){
             stunTimer--;
-            if(stunTimer == 0)
+            if(stunTimer == 0) {
                 body.setFixedRotation(true);
+                sprite.setAlpha(1);
+            }
         }
         if(cooldownTimer > 0)
             cooldownTimer--;
@@ -94,7 +97,12 @@ public class Ship extends Entity{
             return true;
     }
 
+    public boolean isStunned(){
+        return stunTimer > 0;
+    }
+
     public Laser shoot() {
+        cooldownTimer = SHOT_COOLDOWN;
         return new Laser(this);
     }
 
@@ -110,5 +118,15 @@ public class Ship extends Entity{
         dir.setAngleRad(body.getAngle());
         dir.rotateDeg(20);
         body.applyLinearImpulse(dir, body.getPosition(), true);
+    }
+
+    public void getBonus(int bonus){
+        score += bonus;
+    }
+
+    public void stun(){
+        body.setFixedRotation(false);
+        sprite.setAlpha(0.9f);
+        stunTimer = 90;
     }
 }
