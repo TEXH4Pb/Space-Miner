@@ -1,20 +1,19 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Ship extends Entity{
     private int lifes;
     private int score;
-    private int immuneTimer;
-    private static final float FORWARD_VELOCITY = 0.7f;
-    private static final float STRAFE_VELOCITY = 0.3f;
+    private int immuneTimer;//ship is immune for a few seconds after getting damage
+    private int cooldownTimer;//cooldown between laser shots
+    private int stunTimer;//if the ship is hit by laser, it becomes stunned for a while
+    private static final float FORWARD_ACCELERATION = 0.7f;
+    private static final float STRAFE_ACCELERATION = 0.3f;
 
     Ship(World world, float x, float y)
     {
@@ -42,35 +41,6 @@ public class Ship extends Entity{
         }
     }
 
-    public void controlHandling(Vector3 mousePos) {
-        //rotating ship to mouse cursor
-        Vector3 pos = new Vector3(body.getPosition().x, body.getPosition().y, 0);
-        pos.sub(mousePos);
-        Vector2 direction = new Vector2(0,0);
-        direction.set(pos.x, pos.y);
-        direction.rotate90(0);
-        body.setTransform(body.getPosition(), direction.angleRad());
-        direction.rotate90(0);
-
-        if(Gdx.input.isKeyPressed(Input.Keys.W)) {  //fly towards cursor
-            direction.setLength(FORWARD_VELOCITY);
-            body.applyLinearImpulse(direction, body.getPosition(), true);
-        }
-        if(Gdx.input.justTouched()) {
-            //TODO: Laser shot
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.D)) { //strafe to the left
-            direction.setLength(STRAFE_VELOCITY);
-            direction.rotateDeg(90);
-            body.applyLinearImpulse(direction, body.getPosition(), true);
-        }
-        else if(!Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.D)) {//strafe to the right
-            direction.setLength(STRAFE_VELOCITY);
-            direction.rotateDeg(-90);
-            body.applyLinearImpulse(direction, body.getPosition(), true);
-        }
-    }
-
     public int getLifes() {
         return lifes;
     }
@@ -85,11 +55,18 @@ public class Ship extends Entity{
 
     @Override
     public void update(){
-        if (immuneTimer == 0)
-            return;
-        immuneTimer--;
-        if (immuneTimer == 0) //just become zero
-            sprite.setAlpha(1);
+        if (immuneTimer > 0){
+            immuneTimer--;
+            if (immuneTimer == 0) //just become zero
+                sprite.setAlpha(1);
+        }
+        if(stunTimer > 0){
+            stunTimer--;
+            if(stunTimer == 0)
+                body.setFixedRotation(true);
+        }
+        if(cooldownTimer > 0)
+            cooldownTimer--;
     }
 
     //Ship's body origin is in the center, so I need to modify sprite render
@@ -101,5 +78,37 @@ public class Ship extends Entity{
         sprite.setPosition(pos.x - sprite.getOriginX(), pos.y - sprite.getOriginY());
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
         sprite.draw(batch);
+    }
+
+    public void accelerate() {
+        Vector2 dir = new Vector2(FORWARD_ACCELERATION, FORWARD_ACCELERATION);
+        dir.setAngleRad(body.getAngle());
+        dir.rotateDeg(90);
+        body.applyLinearImpulse(dir, body.getPosition(), true);
+    }
+
+    public boolean canShoot() {
+        if(cooldownTimer > 0 || stunTimer > 0)
+            return false;
+        else
+            return true;
+    }
+
+    public Laser shoot() {
+        return new Laser(this);
+    }
+
+    public void strafeLeft() {
+        Vector2 dir = new Vector2(STRAFE_ACCELERATION, STRAFE_ACCELERATION);
+        dir.setAngleRad(body.getAngle());
+        dir.rotateDeg(160);
+        body.applyLinearImpulse(dir, body.getPosition(), true);
+    }
+
+    public void strafeRight() {
+        Vector2 dir = new Vector2(STRAFE_ACCELERATION, STRAFE_ACCELERATION);
+        dir.setAngleRad(body.getAngle());
+        dir.rotateDeg(20);
+        body.applyLinearImpulse(dir, body.getPosition(), true);
     }
 }

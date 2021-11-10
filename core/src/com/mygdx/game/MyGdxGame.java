@@ -174,7 +174,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		for(; asteroidCount>0; asteroidCount--)
 			entities.add(spawnNewAsteroid());
 
-		player.controlHandling(getMouseVector());
+		controlsHandling();
 	}
 	private Vector3 getMouseVector(){
 		Vector3 mouse = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -182,8 +182,26 @@ public class MyGdxGame extends ApplicationAdapter {
 		return mouse;
 	}
 
-	private void systemKeysHandling()
-	{
+	void controlsHandling() {
+		//rotating ship to mouse cursor
+		Vector3 pos = new Vector3(player.getPosition().x, player.getPosition().y, 0);
+		pos.sub(getMouseVector());
+		Vector2 direction = new Vector2(0,0);
+		direction.set(pos.x, pos.y);
+		direction.rotate90(0);
+		player.body.setTransform(player.getPosition(), direction.angleRad());
+
+		if(Gdx.input.isKeyPressed(Input.Keys.W))
+			player.accelerate();
+		if(Gdx.input.justTouched() && player.canShoot())
+			entities.add(player.shoot());
+		if(Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.D))
+			player.strafeLeft();
+		else if(!Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.D))
+			player.strafeRight();
+	}
+
+	private void systemKeysHandling() {
 		if(Gdx.input.isKeyJustPressed(Input.Keys.F5))
 			restartGame(false);
 		if(Gdx.input.isKeyJustPressed(Input.Keys.F6))
