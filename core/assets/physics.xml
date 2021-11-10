@@ -6,6 +6,7 @@
 		<is_dynamic/>
 		<linear_damping>1</linear_damping>
 		<angular_damping>0</angular_damping>
+		<fixed_rotation/>
 		<allow_sleep/>
 		<fixture>
 			<density>1</density>

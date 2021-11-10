@@ -23,7 +23,6 @@ public class Ship extends Entity{
         immuneTimer = 0;
 
         body = SHAPES.createBody("playerShip", world, SCALE, SCALE);
-        body.setFixedRotation(true);
         body.setUserData(this);
         body.setTransform(x, y, 0);
 
