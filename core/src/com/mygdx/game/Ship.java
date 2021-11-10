@@ -12,6 +12,7 @@ public class Ship extends Entity{
     private int immuneTimer;//ship is immune for a few seconds after getting damage
     private int cooldownTimer;//cooldown between laser shots
     private int stunTimer;//if the ship is hit by laser, it becomes stunned for a while
+    private float alphaOffset;//summarize effects
     private static final float FORWARD_ACCELERATION = 0.7f;
     private static final float STRAFE_ACCELERATION = 0.3f;
     private static final int SHOT_COOLDOWN = 20;
@@ -21,6 +22,7 @@ public class Ship extends Entity{
         lifes = 3;
         score = 0;
         immuneTimer = 0;
+        alphaOffset = 0;
 
         body = SHAPES.createBody("playerShip", world, SCALE, SCALE);
         body.setUserData(this);
@@ -36,7 +38,7 @@ public class Ship extends Entity{
             if(immuneTimer == 0) {
                 lifes--;
                 immuneTimer = 180;
-                sprite.setAlpha(0.4f);
+                alphaOffset += 0.5f;
                 target.queuedForRemoval = true;
             }
         }
@@ -59,13 +61,13 @@ public class Ship extends Entity{
         if (immuneTimer > 0){
             immuneTimer--;
             if (immuneTimer == 0) //just become zero
-                sprite.setAlpha(1);
+                alphaOffset -= 0.5f;
         }
         if(stunTimer > 0){
             stunTimer--;
             if(stunTimer == 0) {
                 body.setFixedRotation(true);
-                sprite.setAlpha(1);
+                alphaOffset -= 0.2f;
             }
         }
         if(cooldownTimer > 0)
@@ -80,6 +82,7 @@ public class Ship extends Entity{
         sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
         sprite.setPosition(pos.x - sprite.getOriginX(), pos.y - sprite.getOriginY());
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
+        sprite.setAlpha(1 - alphaOffset);
         sprite.draw(batch);
     }
 
@@ -125,8 +128,10 @@ public class Ship extends Entity{
     }
 
     public void stun(){
-        body.setFixedRotation(false);
-        sprite.setAlpha(0.9f);
+        if(stunTimer == 0) {
+            body.setFixedRotation(false);
+            alphaOffset += 0.2f;
+        }
         stunTimer = 90;
     }
 }
