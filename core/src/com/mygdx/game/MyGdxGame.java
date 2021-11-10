@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MyGdxGame extends ApplicationAdapter {
 	static final float STEP_TIME = 1f / 60f;
@@ -36,6 +37,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	int screenWidth, screenHeight;
 	float worldWidth, worldHeight;
 	World world;
+	BoxListener contactListener;
 	Ship player;
 	ArrayList<Entity> entities;
 	Box2DDebugRenderer debugRenderer;
@@ -63,7 +65,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		fontParameter.size = 20;
 		font = fontGenerator.generateFont(fontParameter);
 
+		contactListener = new BoxListener();
 		world = new World(new Vector2(0,0), true);
+		world.setContactListener(contactListener);
 		entities = new ArrayList<Entity>();
 
 		restartGame(true);
@@ -88,8 +92,10 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 		}
 		//rendering all entities
+		if(player.getLifes()>0){
 		for (Entity e: entities) {
 			e.draw(batch);
+		}
 		}
 		batch.end();
 
@@ -103,6 +109,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		font.draw(batch, "SCORE: " + player.getScore(), 0 + screenWidth - 200, screenHeight * 0.95f);
 		if(debugMode)
 			font.draw(batch, "FPS " + Gdx.graphics.getFramesPerSecond(), 0 + screenWidth * 0.05f, screenHeight * 0.05f);
+		if(player.getLifes() <= 0)
+			font.draw(batch, "GAME OVER!", screenWidth * 0.5f - 70, screenHeight * 0.5f);
 		batch.end();
 	}
 	@Override
@@ -123,11 +131,26 @@ public class MyGdxGame extends ApplicationAdapter {
 	//all non-render logic
 	private void updateGame()
 	{
+		systemKeysHandling();//mostly for debug purposes
+		if(player.getLifes() <= 0)
+			return;
+
 		world.step(STEP_TIME, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 
-		//border handling
+		int asteroidCount = 0;
 		Vector2 newPos;
-		for (Entity e : entities) {
+		Iterator<Entity> iterator = entities.iterator();
+		while (iterator.hasNext()) {
+			Entity e = iterator.next();
+			e.update();
+			if(e.queuedForRemoval) {
+				world.destroyBody(e.body);
+				if (e instanceof Asteroid)
+					asteroidCount++;
+				iterator.remove();
+				continue;
+			}
+			//border handling
 			if (e.getPosition().x > worldWidth) {
 				newPos = e.getPosition();
 				newPos.x = 0;
@@ -148,8 +171,9 @@ public class MyGdxGame extends ApplicationAdapter {
 				e.body.setTransform(newPos, e.body.getAngle());
 			}
 		}
+		for(; asteroidCount>0; asteroidCount--)
+			entities.add(spawnNewAsteroid());
 
-		systemKeysHandling();//mostly for debug purposes
 		player.controlHandling(getMouseVector());
 	}
 	private Vector3 getMouseVector(){
@@ -176,28 +200,26 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	private void restartGame(boolean start) {
-		if(!start) {
-		for(Entity e : entities) {
-			world.destroyBody(e.body);
+		if (!start) {
+			for (Entity e : entities) {
+				world.destroyBody(e.body);
+			}
+			entities.clear();
 		}
-		entities.clear();
-		Gdx.graphics.setWindowedMode(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		JOptionPane.showMessageDialog(null, "Game over! Your score is: " + player.getScore());
-		Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-		}
-		player = new Ship(world, worldWidth /2, worldHeight /2);
+		player = new Ship(world, worldWidth / 2, worldHeight / 2);
 		entities.add(player);
-		for(int i = 0; i < ASTEROID_COUNT; ++i)
-		{
+		for (int i = 0; i < ASTEROID_COUNT; ++i) {
 			entities.add(spawnNewAsteroid());
 		}
 	}
+
 	private Asteroid spawnNewAsteroid(){
 		float x, y;
 		do {
 			x = worldWidth * (float)Math.random();
 			y = worldHeight * (float)Math.random();
 		}
+
 		while (player.getPosition().dst(x,y)<5);
 		return new Asteroid(world, x, y);
 	}

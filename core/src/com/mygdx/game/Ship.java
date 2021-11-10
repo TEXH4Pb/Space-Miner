@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Ship extends Entity{
     private int lifes;
     private int score;
+    private int immuneTimer;
     private static final float FORWARD_VELOCITY = 0.7f;
     private static final float STRAFE_VELOCITY = 0.3f;
 
@@ -19,9 +20,11 @@ public class Ship extends Entity{
     {
         lifes = 3;
         score = 0;
+        immuneTimer = 0;
 
         body = SHAPES.createBody("playerShip", world, SCALE, SCALE);
         body.setFixedRotation(true);
+        body.setUserData(this);
         body.setTransform(x, y, 0);
 
         sprite = new Sprite(new Texture("sprites/playerShip3_orange.png"));
@@ -30,8 +33,14 @@ public class Ship extends Entity{
 
     @Override
     public void collideWith(Entity target) {
-        //TODO: asteroid collision
-        //TODO: laser collision
+        if(target instanceof Asteroid) {
+            if(immuneTimer == 0) {
+                lifes--;
+                immuneTimer = 180;
+                sprite.setAlpha(0.4f);
+                target.queuedForRemoval = true;
+            }
+        }
     }
 
     public void controlHandling(Vector3 mousePos) {
@@ -70,6 +79,20 @@ public class Ship extends Entity{
     public int getScore() {
         return score;
     }
+
+    public boolean isImmune(){
+        return immuneTimer > 0;
+    }
+
+    @Override
+    public void update(){
+        if (immuneTimer == 0)
+            return;
+        immuneTimer--;
+        if (immuneTimer == 0) //just become zero
+            sprite.setAlpha(1);
+    }
+
     //Ship's body origin is in the center, so I need to modify sprite render
     void draw(SpriteBatch batch) {
         if(body == null)

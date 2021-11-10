@@ -12,8 +12,10 @@ public abstract class Entity {
 
     Sprite sprite = null;
     Body body = null;
+    public boolean queuedForRemoval = false;
 
     public abstract void collideWith(Entity target);
+    public abstract void update();
 
     Vector2 getPosition()
     {

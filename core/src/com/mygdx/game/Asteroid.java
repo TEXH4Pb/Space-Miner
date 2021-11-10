@@ -85,8 +85,7 @@ public class Asteroid extends Entity{
     }
 
     @Override
-    public void collideWith(Entity target) {
-        //TODO: Ship collision
-        //TODO: Laser collision
-    }
+    public void collideWith(Entity target) {}
+    @Override
+    public void update() {};//no updates for asteroids
 }
