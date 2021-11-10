@@ -62,7 +62,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/kenvector_future.ttf"));
 		fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		fontParameter.size = 20;
+		fontParameter.size = 24;
 		font = fontGenerator.generateFont(fontParameter);
 
 		contactListener = new BoxListener();
@@ -105,8 +105,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		//UI render
 		batch.setProjectionMatrix(uiCam.combined);
 		batch.begin();
-		font.draw(batch, "LIFES: " + player.getLifes(), 0 + screenWidth * 0.02f, screenHeight * 0.95f);
-		font.draw(batch, "SCORE: " + player.getScore(), 0 + screenWidth - 200, screenHeight * 0.95f);
+		font.draw(batch, "SCORE: " + player.getScore(), 0 + screenWidth * 0.02f, screenHeight * 0.95f);
+		font.draw(batch, "LIFES: " + player.getLifes(), 0 + screenWidth - 150, screenHeight * 0.95f);
 		if(debugMode)
 			font.draw(batch, "FPS " + Gdx.graphics.getFramesPerSecond(), 0 + screenWidth * 0.05f, screenHeight * 0.05f);
 		if(player.getLifes() <= 0)
