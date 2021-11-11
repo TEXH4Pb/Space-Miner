@@ -13,7 +13,7 @@ public class Ship extends Entity{
     private int cooldownTimer;//cooldown between laser shots
     private int stunTimer;//if the ship is hit by laser, it becomes stunned for a while
     private float alphaOffset;//summarize effects
-    private static final float FORWARD_ACCELERATION = 0.7f;
+    private static final float FORWARD_ACCELERATION = 0.5f;
     private static final float STRAFE_ACCELERATION = 0.3f;
     private static final int SHOT_COOLDOWN = 20;
 
@@ -94,10 +94,7 @@ public class Ship extends Entity{
     }
 
     public boolean canShoot() {
-        if(cooldownTimer > 0 || stunTimer > 0)
-            return false;
-        else
-            return true;
+        return cooldownTimer <= 0 && stunTimer <= 0;
     }
 
     public boolean isStunned(){

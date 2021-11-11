@@ -5,10 +5,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 public class Laser extends Entity{
+    private static final float VELOCITY = 3;
     private static final int ENERGY_MAX = 60;
-    private Ship owner;
+    private final Ship owner;
     private int energy;
-    public boolean firstContact;
+    public boolean firstContact;//flag for handling collision just after the shot
 
     Laser(Ship shooter){
         energy = ENERGY_MAX;
@@ -17,7 +18,7 @@ public class Laser extends Entity{
 
         body = SHAPES.createBody("laser", owner.body.getWorld(), SCALE, SCALE);
         body.setUserData(this);
-        Vector2 dir = new Vector2(4,4);
+        Vector2 dir = new Vector2(VELOCITY, VELOCITY);
         body.setTransform(owner.getPosition(), owner.body.getAngle());
         dir.setAngleRad(body.getAngle());
         dir.rotate90(0);
@@ -41,8 +42,9 @@ public class Laser extends Entity{
         }else if(target instanceof Ship){
             ((Ship) target).stun();
         }
-        else
+        else {
             target.queuedForRemoval = true;
+        }
     }
 
     @Override

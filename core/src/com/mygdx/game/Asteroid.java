@@ -76,7 +76,7 @@ public class Asteroid extends Entity{
         Vector2 velocity = new Vector2();
         velocity.x = (float)Math.random() - 0.5f;
         velocity.y = (float)Math.random() - 0.5f;
-        velocity.setLength((float)Math.random() * 2 + 1);
+        velocity.setLength((float)Math.random() * 2 + 4);
         body.setLinearVelocity(velocity);
         body.setUserData(this);
 
@@ -87,5 +87,5 @@ public class Asteroid extends Entity{
     @Override
     public void collideWith(Entity target) {}
     @Override
-    public void update() {};//no updates for asteroids
+    public void update() {}//no updates for asteroids
 }

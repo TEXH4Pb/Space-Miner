@@ -17,7 +17,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -25,7 +24,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	static final float STEP_TIME = 1f / 60f;
 	static final int VELOCITY_ITERATIONS = 6;
 	static final int POSITION_ITERATIONS = 2;
-	static final int ASTEROID_COUNT = 20;
+	static final int ASTEROID_COUNT = 15;
 	static final float SCALE = 0.02f;
 
 	SpriteBatch batch;
@@ -68,7 +67,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		contactListener = new BoxListener();
 		world = new World(new Vector2(0,0), true);
 		world.setContactListener(contactListener);
-		entities = new ArrayList<Entity>();
+		entities = new ArrayList<>();
 
 		restartGame(true);
 
@@ -107,7 +106,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.setProjectionMatrix(uiCam.combined);
 		batch.begin();
 		font.draw(batch, "SCORE: " + player.getScore(), 0 + screenWidth * 0.02f, screenHeight * 0.95f);
-		font.draw(batch, "LIFES: " + player.getLifes(), 0 + screenWidth - 150, screenHeight * 0.95f);
+		font.draw(batch, "LIFES: " + player.getLifes(), screenWidth - 150, screenHeight * 0.95f);
 		if(debugMode)
 			font.draw(batch, "FPS " + Gdx.graphics.getFramesPerSecond(), 0 + screenWidth * 0.05f, screenHeight * 0.05f);
 		if(player.getLifes() <= 0)
@@ -141,7 +140,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		checkBorders(player);
 
 		int asteroidCount = 0;
-		Vector2 newPos;
 		Iterator<Entity> iterator = entities.iterator();
 		while (iterator.hasNext()) {
 			Entity e = iterator.next();
