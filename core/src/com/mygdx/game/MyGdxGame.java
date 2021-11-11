@@ -41,6 +41,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	ArrayList<Entity> entities;
 	Box2DDebugRenderer debugRenderer;
 	boolean debugMode = false;
+	boolean pauseMode = false;
 
 	@Override
 	public void create () {
@@ -107,12 +108,22 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.begin();
 		font.draw(batch, "SCORE: " + player.getScore(), 0 + screenWidth * 0.02f, screenHeight * 0.95f);
 		font.draw(batch, "LIFES: " + player.getLifes(), screenWidth - 150, screenHeight * 0.95f);
+		if(pauseMode)
+			showHint();
+		else if(player.getLifes() <= 0)
+			font.draw(batch, "GAME OVER!", screenWidth * 0.5f - 70, screenHeight * 0.5f);
 		if(debugMode)
 			font.draw(batch, "FPS " + Gdx.graphics.getFramesPerSecond(), 0 + screenWidth * 0.05f, screenHeight * 0.05f);
-		if(player.getLifes() <= 0)
-			font.draw(batch, "GAME OVER!", screenWidth * 0.5f - 70, screenHeight * 0.5f);
 		batch.end();
 	}
+
+	private void showHint() {
+		String text = "W - Fly towards cursor\nA/D - Strafe left/right\nLMB - Fire" +
+				"\nF1 - Help\nF5 - Restart\nF6 - Spawn extra asteroid" +
+				"\nF7 - Debug mode\nF11 - Toggle fullscreen\n\nGOOD LUCK!";
+		font.draw(batch, text, 0 + screenWidth * 0.05f, screenHeight * 0.9f);
+	}
+
 	@Override
 	public void resize(int width, int height) {
 		screenWidth = Gdx.graphics.getWidth();
@@ -132,7 +143,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private void updateGame()
 	{
 		systemKeysHandling();//mostly for debug purposes
-		if(player.getLifes() <= 0)
+		if(player.getLifes() <= 0 || pauseMode)
 			return;
 
 		world.step(STEP_TIME, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
@@ -209,6 +220,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	private void systemKeysHandling() {
+		if(Gdx.input.isKeyJustPressed(Input.Keys.F1))
+			pauseMode = !pauseMode;
 		if(Gdx.input.isKeyJustPressed(Input.Keys.F5))
 			restartGame(false);
 		if(Gdx.input.isKeyJustPressed(Input.Keys.F6))
